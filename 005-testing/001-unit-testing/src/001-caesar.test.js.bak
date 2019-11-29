@@ -1,0 +1,28 @@
+const {encode} = require('./001-caesar');
+
+const {expect} = require('chai');
+
+describe('encode', () => {
+
+  describe('english alphabet', () => {
+    it('should encode english alphabet (lower-case)', () => {
+      const input = 'abyz';
+      const expected = 'bcza';
+      const shift = 1;
+
+      const actual = encode(shift, input);
+
+      expect(actual).to.be.equal(expected);
+    });
+
+    it('should encode english alphabet (capital-case)', () => {
+      const input = 'ABYZ';
+      const expected = 'BCZA';
+      const shift = 1;
+
+      const actual = encode(shift, input);
+
+      expect(actual).to.be.equal(expected);
+    });
+  });
+});

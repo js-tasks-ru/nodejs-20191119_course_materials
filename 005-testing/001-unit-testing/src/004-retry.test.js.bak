@@ -1,0 +1,67 @@
+const sinon = require('sinon');
+const {expect} = require("chai");
+
+const retry = require('./004-retry');
+
+describe('retry', () => {
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  it('should be a function', () => {
+    expect(retry).to.be.a('function');
+  });
+
+  it('should call passed function and return it\'s result if any', async () => {
+    const result = 'result';
+    const self = {};
+    const fn = sinon.stub().resolves(result);
+
+    const actual = await retry(10000, fn, self, result);
+
+    expect(fn).to.have.been.calledOnce;
+    expect(fn).to.have.been.calledOn(self);
+    expect(actual).to.be.equal(result);
+  });
+
+  it('should call passed function second time if error has been returned after the first call', async () => {
+    const result = 'result';
+    const self = {};
+    const fn = sinon.stub()
+      .onFirstCall().rejects(new Error())
+      .onSecondCall().resolves(result);
+
+    const actual = await retry(0, fn, self, result);
+
+    expect(fn).to.have.been.calledTwice;
+    expect(fn).to.have.been.calledOn(self);
+    expect(actual).to.be.equal(result);
+  });
+
+  it('should call the function second time after specified amount of time', async () => {
+    const result = 'result';
+    const self = {};
+    const clock = sinon.useFakeTimers();
+    const fn = sinon.stub()
+      .onFirstCall().throws(new Error())
+      .onSecondCall().resolves(result);
+
+    const timeout = 1000;
+
+    const actualPromise = retry(timeout, fn, self, result);
+
+    await Promise.resolve();
+
+    clock.tick(timeout);
+
+    const actual = await actualPromise;
+
+    expect(fn).to.have.been.calledTwice;
+    expect(fn).to.have.been.calledOn(self);
+    expect(actual).to.be.equal(result);
+
+  });
+
+})
+;

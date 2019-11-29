@@ -1,0 +1,36 @@
+const {Readable, Writable} = require('stream');
+const {CaesarCipherEncode} = require("./002-caesar-stream");
+
+const {expect} = require('chai');
+
+const toString = (cb) => {
+  const chunks = [];
+  return new Writable({
+    write(chunk, encoding, callback) {
+      chunks.push(chunk);
+      return callback()
+    },
+    final(callback) {
+      process.nextTick(() => cb(Buffer.concat(chunks).toString('utf-8')));
+      return callback()
+    }
+  })
+};
+
+describe('CaesarEncodeStream', () => {
+  it('should create a new object', () => {
+    const stream = new CaesarCipherEncode(1);
+    expect(stream).to.be.instanceof(CaesarCipherEncode)
+  });
+
+  it('should encode input stream', (done) => {
+    const input = Readable.from(['abc']);
+
+    const stream = new CaesarCipherEncode(1);
+
+    input.pipe(stream).pipe(toString(string => {
+      expect(string).to.be.equal('bcd');
+      done();
+    }));
+  });
+});
