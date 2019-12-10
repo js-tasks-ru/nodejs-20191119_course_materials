@@ -1,0 +1,19 @@
+GET http://localhost:3000/api/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZGVmZmJkNjRlYjkwNTA1Mjk5ZTA4NjkiLCJpYXQiOjE1NzYwMDg4MDAsImV4cCI6MTU3NjAwOTEwMH0.3Dzd52fhDRyLqGMRbC5FaHsdsMdsPATrX6Sd0wzecw4
+
+###
+
+POST http://localhost:3000/api/refresh
+Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZGVmZmJkNjRlYjkwNTA1Mjk5ZTA4NjkiLCJpYXQiOjE1NzYwMDg2NjIsImV4cCI6MTU3NjAwODk2Mn0.MSk_0z6ounuxVL4AG21buu6ws58GmLFB-7UNG7WRQVw",
+  "refreshToken": "30e48497-c49c-4914-856c-b401ef66578d"
+}
+
+###
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZGVmZmJkNjRlYjkwNTA1Mjk5ZTA4NjkiLCJpYXQiOjE1NzYwMDg4MDAsImV4cCI6MTU3NjAwOTEwMH0.3Dzd52fhDRyLqGMRbC5FaHsdsMdsPATrX6Sd0wzecw4",
+  "refreshToken": "21905b6c-6f0a-4c00-ad91-e889d2fb5150"
+}

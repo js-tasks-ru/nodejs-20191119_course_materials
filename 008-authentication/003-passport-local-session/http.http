@@ -1,0 +1,24 @@
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{"login": "login", "password": "1111"}
+
+###
+
+
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{"login": "login", "password": "1111"}
+
+###
+
+
+GET http://localhost:3000/home
+
+###
+
+GET http://localhost:3000/logout
+
+###
+

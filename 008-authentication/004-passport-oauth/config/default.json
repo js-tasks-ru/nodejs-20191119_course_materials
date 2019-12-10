@@ -1,0 +1,19 @@
+{
+  "app": {
+    "port": "3000"
+  },
+  "auth": {
+    "salt": "salt",
+    "userSaltLength": 20,
+    "iterations": 1,
+    "hashLength": 64,
+    "hashAlgorithm": "sha512",
+    "github": {
+      "clientId": "",
+      "secret": ""
+    }
+  },
+  "session": {
+    "secret": "session-secret"
+  }
+}

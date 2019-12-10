@@ -1,0 +1,42 @@
+{
+  "app": {
+    "port": "3000"
+  },
+  "mongodb": {
+    "url": "mongodb://localhost:27017",
+    "db": "auth_registration"
+  },
+  "auth": {
+    "salt": "salt",
+    "userSaltLength": 20,
+    "iterations": 1,
+    "hashLength": 64,
+    "hashAlgorithm": "sha512",
+    "github": {
+      "clientId": "",
+      "secret": ""
+    },
+    "jwt": {
+      "algorithm": "HS256",
+      "secret": "secret",
+      "expiresIn": "5m"
+    },
+    "refreshToken": {
+      "expiresIn": "30d"
+    }
+  },
+  "session": {
+    "secret": "session-secret"
+  },
+  "mail": {
+    "templates": "./mail/templates",
+    "smtp": {
+      "host": "smtp.ethereal.email",
+      "port": "587",
+      "auth": {
+        "user": "moses.dickens36@ethereal.email",
+        "pass": "GDGpkjHkw1erCDFqBc"
+      }
+    }
+  }
+}

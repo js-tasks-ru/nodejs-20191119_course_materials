@@ -1,0 +1,17 @@
+{
+  "app": {
+    "port": "3000"
+  },
+  "auth": {
+    "salt": "salt",
+    "userSaltLength": 20,
+    "iterations": 1,
+    "hashLength": 64,
+    "hashAlgorithm": "sha512"
+  },
+  "mongo" : {
+    "host" : "localhost",
+    "port" : 27017,
+    "db" : "auth_register_login"
+  }
+}
