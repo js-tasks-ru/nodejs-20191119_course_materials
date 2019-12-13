@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebSocket Chat</title>
+</head>
+<style>
+    .container {
+        margin-left: 10%;
+        margin-right: 10%;
+        display: flex;
+        justify-content: center;
+        align-content: stretch;
+        flex-direction: column;
+    }
+
+    .name {
+        flex-direction: row;
+    }
+
+    .chat {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .messages {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 300px;
+        overflow-y: scroll;
+    }
+
+    .send {
+        flex-direction: row;
+        justify-content: left;
+        align-content: stretch;
+    }
+
+    .send input {
+        width: 75%;
+    }
+</style>
+<body>
+<div class="container">
+    <div class="name">
+        <label for="name">Input your name: </label>
+        <input type="text" id="name">
+        <button id="connect">Connect</button>
+    </div>
+    <div class="chat">
+        <div class="messages" id="messages">
+        </div>
+        <div class="send">
+            <label>
+                You are saying: <input type="text" id="message">
+            </label>
+            <button id="send">Send</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  class Chat {
+    constructor({onopen, onmessage}) {
+      this.ws = null;
+      this.name = null;
+      this.handlers = {
+        open: onopen,
+        message: onmessage
+      }
+    }
+
+    connect(name) {
+      this.ws = io('ws://localhost:3000');
+      this.name = name;
+      const open = (...args) => {
+        this.ws.emit('start', {name});
+        this.handlers.open(...args);
+        this.ws.off('connect', open);
+      };
+      this.ws.on('connect', open);
+
+      this.ws.on('message', ({from, message}) => {
+        this.handlers.message(from, message)
+      });
+    }
+
+    send(message) {
+      this.ws.emit('message', {message, from: this.name});
+      this.handlers.message(this.name, message);
+    }
+  }
+
+  const nameInput = document.querySelector('#name');
+  const connectBtn = document.querySelector('#connect');
+
+  const messageInput = document.querySelector('#message');
+  const sendBtn = document.querySelector('#send');
+
+  const messagesOutput = document.querySelector("#messages");
+
+  function renderMessage(from, message) {
+    const p = document.createElement("p");
+    const date = new Date();
+    p.innerText = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${from}: ${message}`;
+    messagesOutput.appendChild(p);
+  }
+
+
+  const chat = new Chat({
+    onopen: () => {
+      renderMessage('system', 'connected');
+      connectBtn.disabled = true;
+    },
+    onmessage: (from, message) => {
+      renderMessage(from, message);
+    }
+  });
+
+  connectBtn.addEventListener('click', () => {
+    chat.connect(nameInput.value);
+  });
+
+  sendBtn.addEventListener('click', () => {
+    const message = messageInput.value;
+    chat.send(message)
+  });
+</script>
+</html>
