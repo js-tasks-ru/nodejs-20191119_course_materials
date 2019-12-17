@@ -1,0 +1,23 @@
+apps:
+  - name: ms-users
+    cwd: ./ms-users
+    script: index.js
+    instances: 2
+    max_memory_restart: 300M
+    env:
+      NODE_PORT: 3000
+    env_prod:
+      NODE_PORT: 4000
+  - name: ms-posts
+    cwd: ./ms-posts
+    script: index.js
+    instances: 2
+    env:
+      NODE_PORT: 3001
+    env_prod:
+      NODE_PORT: 4001
+  - name: bg-worker
+    cwd: ./bg-worker
+    script: index.js
+    instances: 2
+    exec_mode: fork
