@@ -1,0 +1,50 @@
+version: "3.7"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    expose:
+      - 5672
+    ports:
+      - 127.0.0.2:15672:15672
+
+  mongodb:
+    image: mongo:4.2-bionic
+    expose:
+      - 27017
+
+  image-upload-server:
+    build:
+      context: ./
+      dockerfile: image-upload-server.dockerfile
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - 127.0.0.2:3000:3000
+    depends_on:
+      - mongodb
+      - rabbitmq
+    env_file:
+      - ./.env.docker
+
+  image-worker:
+    build:
+      context: ./
+      dockerfile: image-worker.dockerfile
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      - mongodb
+      - rabbitmq
+    env_file:
+      - ./.env.docker
+
+# http://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/
+volumes:
+  uploads:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/uploads
+      o: bind
+
+

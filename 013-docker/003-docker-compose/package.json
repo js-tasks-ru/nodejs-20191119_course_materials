@@ -1,0 +1,32 @@
+{
+  "name": "003-docker-compose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "node image-upload-server/index.js",
+    "start:server:dev": "nodemon image-upload-server/index.js",
+    "start:worker": "node image-worker/index.js",
+    "start:worker:dev": "nodemon image-worker/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/multer": "^2.0.1",
+    "amqplib": "^0.5.5",
+    "dotenv": "^8.2.0",
+    "http-status-codes": "^1.4.0",
+    "jimp": "^0.9.3",
+    "koa": "^2.11.0",
+    "koa-morgan": "^1.0.1",
+    "koa-router": "^7.4.0",
+    "mime": "^2.4.4",
+    "mongoose": "^5.8.1",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
